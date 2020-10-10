@@ -111,7 +111,7 @@ function createMarkers(response) {
       var earthquake = earthquakes[index];
   
       // For each station, create a marker and bind a popup with the station's name
-      var marker = L.marker([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
+      var marker = L.circleMarker([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
           radius: earthquake.properties.mag * 2,
           //fillColor: markerColor(earthquake.geometry.coordinates[2]),
           fillOpacity: 0.75,
