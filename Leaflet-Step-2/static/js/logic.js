@@ -6,13 +6,13 @@ function markerSize(depth) {
 }
 
 function getColor(depth) {
-  return depth > 90 ? '#800026':
-         depth > 70 ? '#BD0026':
-         depth > 50 ? 'E31A1C':
-         depth > 30 ? '#FC4E2A':
-         depth > 10 ? '#FD8D3C':
-         depth > -10 ? '#FEB24C':
-         '#FED976';
+  return depth > 90 ? 'darkred':
+         depth > 70 ? 'maroon':
+         depth > 50 ? 'firebrick':
+         depth > 30 ? 'tomato':
+         depth > 10 ? 'salmon':
+         depth > -10 ? 'pink':
+         'black';
 }
 
 // Perform a GET request to the query URL
@@ -26,7 +26,7 @@ function createFeatures(earthquakeData) {
   var earthquakes = L.geoJSON(earthquakeData, {
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
- onEachFeature : function (feature, layer) {
+  onEachFeature : function (feature, layer) {
 
     layer.bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<p> Magnitude: " +  feature.properties.mag + "</p>")
@@ -35,7 +35,8 @@ function createFeatures(earthquakeData) {
       return new L.circle(latlng,
         {radius: markerSize(feature.properties.mag),
         fillColor: getColor(feature.geometry.coordinates[2]),
-        fillOpacity: 1,
+        color: 'black',
+        fillOpacity: 0.75,
         stroke: false,
     })
   }
@@ -69,7 +70,7 @@ function createMap(earthquakes) {
     accessToken: API_KEY
   });
 
-  // Set up tectonic plates line
+  // Set up tectonic plates line layer
   var tectonicLine = new L.LayerGroup();
 
   // Define a baseMaps object to hold our base layers
@@ -89,7 +90,7 @@ function createMap(earthquakes) {
   var myMap = L.map("map", {
     center: [20,-94],
     zoom: 3,
-    layers: [satelitemap, earthquakes, tectonicLine]
+    layers: [satelitemap, tectonicLine, earthquakes]
   });
 
   // Create a layer control
@@ -101,37 +102,33 @@ function createMap(earthquakes) {
   }).addTo(myMap);
 
   // Query to retrieve the tectonic plates line from github
-var tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+  var tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
 
-// Create tje lines and add to the layer
-d3.json(tectonicData, function(data){
+  // Create tje lines and add to the layer
+  d3.json(tectonicData, function(data){
   L.geoJSON(data, {
     style: function(){
-      return {color: "yellow", fillOpacity: 0}
+      return {color: "gold", fillOpacity: 0}
     }
   }).addTo(tectonicLine)
-})
+  })
 
+  // Adding legend on the map
+  var legend = L.control({position: 'bottomright'});
+  
+  legend.onAdd = function (myMap) {
+  
+    var div = L.DomUtil.create('div', 'info legend'),
+      grades = [-10, 10, 30, 50, 70, 90],
+      labels = [];
+  
+    for (var i = 0; i < grades.length; i++) {
+      div.innerHTML += 
+        '<i style="background:' + getColor(grades[i]+1) + '"></i> ' +
+        grades[i] + (grades[i+1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+  }
+    //div.innerHTML = labels.join('<br>');
+  return div;
+  };
+legend.addTo(myMap);  
 }
-
-
-
-//   // Adding legend on the map
-//   var legend = L.control({position: 'bottomright'});
-  
-//   legend.onAdd = function (myMap) {
-  
-//       var div = L.DomUtil.create('div', 'info legend').
-//       grades = [-10, 10, 30, 50, 70, 90],
-//       labels = [];
-  
-//       for (var i = 0; i < grades.length; i++) {
-//         div.innerHTML += 
-//             '<i class="circle" style="background:' + getColor(grades[i]+1) + '"></i> ' +
-//         grades[i] + (grades[i+1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-//       }
-//     div.innerHTML = labels.join('<br>');
-//     return div;
-//   };
-// legend.addTo(myMap);  
-// }
