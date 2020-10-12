@@ -1,5 +1,5 @@
 # Leaflet-Earthquake-Project
-The USGS collect a massive amount of earhquake data from all over the world each day. I built a new set of tools to visualize their earthquake data.
+The USGS collects a massive amount of earhquake data from all over the world each day. I built a new set of tools to visualize their earthquake data.
 
 First, I used the dataset from the url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson" that gives us the past 7 days all earthquake data with geoJson format.
 
