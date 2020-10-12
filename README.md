@@ -5,7 +5,7 @@ First, I used the dataset from the url: "https://earthquake.usgs.gov/earthquakes
 
 And then, I created a map using Leaflet that plots all of the earthquakes from the data set based on their longitude and latitude.
 
-   * My data-markers reflect the magnitude of the earthquake by their size and and depth of the earthquake by color. Earthquakes with higher magnitudes appear larger circles and earthquakes with greater depth appear darker in color.
+   * My data-markers reflect the magnitude of the earthquake by their size and and depth of the earth (in km) by color. Earthquakes with higher magnitudes appear larger circles and earthquakes with greater depth appear darker in color.
 
    * I used the depth of the earth data in km using the third coordinate value for each earthquake.
 
@@ -18,7 +18,7 @@ And then, I created a map using Leaflet that plots all of the earthquakes from t
    ![Step_1_Image](Readme_Images/Step_1_Image.png)
    
   
-   * I also made the website with satelite, grayscale, and outdoors maps, earthquake data and tectonic plates data.
+   * I also made the website with satelite, grayscale, and outdoors maps, and earthquake and tectonic plates data.
    
    * Satelite map:
    ![Satelite_Image](Readme_Images/Step_2_Satelite_Image.png)
